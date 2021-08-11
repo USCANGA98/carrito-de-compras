@@ -1,151 +1,153 @@
 <template>
-  <v-container>
-    <v-row class="text-center">
-      <v-col cols="12">
+  <div>
+    <v-app-bar app color="primary" dark>
+      <div class="d-flex align-center">
         <v-img
-          :src="require('../assets/logo.svg')"
-          class="my-3"
+          alt="Vuetify Logo"
+          class="shrink mr-2"
           contain
-          height="200"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
+          transition="scale-transition"
+          width="40"
         />
-      </v-col>
 
-      <v-col class="mb-4">
-        <h1 class="display-2 font-weight-bold mb-3">
-          Welcome to Vuetify
-        </h1>
+        <v-img
+          alt="Vuetify Name"
+          class="shrink mt-1 hidden-sm-and-down"
+          contain
+          min-width="100"
+          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
+          width="100"
+        />
+      </div>
 
-        <p class="subheading font-weight-regular">
-          For help and collaboration with other Vuetify developers,
-          <br>please join our online
-          <a
-            href="https://community.vuetifyjs.com"
-            target="_blank"
-          >Discord Community</a>
-        </p>
-      </v-col>
+      <v-spacer></v-spacer>
 
-      <v-col
-        class="mb-5"
-        cols="12"
+      <v-btn
+        text
+        :to="{ name: 'CreateAccount' }"
+        class="text-capitalize font-weight-bold white--text"
       >
-        <h2 class="headline font-weight-bold mb-3">
-          What's next?
-        </h2>
+        Crear Cuenta
+        <v-icon right>mdi-account</v-icon>
+      </v-btn>
+    </v-app-bar>
+    <v-row class="d-flex justify-center mt-15">
+      <v-col md="6" lg="4" sm="6" cols="12">
+        <v-card max-width="360" class="ma-auto" elevation="2" rounded="lg">
+          <v-col cols="12" class="d-flex justify-center">
+            <v-icon class="color" color="blue" size="130"
+              >mdi-storefront</v-icon
+            >
+          </v-col>
+          <v-col cols="12" v-if="error != ''">
+            <v-alert outlined type="error" text dense>{{ error }}</v-alert>
+          </v-col>
 
-        <v-row justify="center">
-          <a
-            v-for="(next, i) in whatsNext"
-            :key="i"
-            :href="next.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ next.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Important Links
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(link, i) in importantLinks"
-            :key="i"
-            :href="link.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ link.text }}
-          </a>
-        </v-row>
-      </v-col>
-
-      <v-col
-        class="mb-5"
-        cols="12"
-      >
-        <h2 class="headline font-weight-bold mb-3">
-          Ecosystem
-        </h2>
-
-        <v-row justify="center">
-          <a
-            v-for="(eco, i) in ecosystem"
-            :key="i"
-            :href="eco.href"
-            class="subheading mx-3"
-            target="_blank"
-          >
-            {{ eco.text }}
-          </a>
-        </v-row>
+          <v-form class="pr-5 pl-5" @submit.prevent="iniciarSesion()">
+            <v-text-field
+              outlined
+              dense
+              v-model="user.mail"
+              color="blue"
+              label="Usuario"
+              required
+            ></v-text-field>
+            <v-text-field
+              outlined
+              dense
+              v-model="user.password"
+              color="blue"
+              label="Contraseña"
+              type="password"
+              required
+            ></v-text-field>
+            <v-btn
+              class="text-capitalize font-weight-bold white--text"
+              block
+              color="blue"
+              dark
+              depressed
+              :loading="loading"
+              type="submit"
+              >Iniciar sesión</v-btn
+            >
+            <v-row>
+              <v-col cols="12" class="d-flex justify-center pt-5 pb-5">
+                <router-link
+                  :to="{ name: 'Reset-Password' }"
+                  class="enlace font-weight-light blue--text text-subtitle-2"
+                  >¿Olvidaste tu contraseña?</router-link
+                >
+              </v-col>
+            </v-row>
+          </v-form>
+        </v-card>
       </v-col>
     </v-row>
-  </v-container>
+  </div>
 </template>
 
 <script>
-  export default {
-    name: 'HelloWorld',
+import { db, auth } from "../services/firebase";
+import { mapMutations } from "vuex";
 
-    data: () => ({
-      ecosystem: [
-        {
-          text: 'vuetify-loader',
-          href: 'https://github.com/vuetifyjs/vuetify-loader',
-        },
-        {
-          text: 'github',
-          href: 'https://github.com/vuetifyjs/vuetify',
-        },
-        {
-          text: 'awesome-vuetify',
-          href: 'https://github.com/vuetifyjs/awesome-vuetify',
-        },
-      ],
-      importantLinks: [
-        {
-          text: 'Documentation',
-          href: 'https://vuetifyjs.com',
-        },
-        {
-          text: 'Chat',
-          href: 'https://community.vuetifyjs.com',
-        },
-        {
-          text: 'Made with Vuetify',
-          href: 'https://madewithvuejs.com/vuetify',
-        },
-        {
-          text: 'Twitter',
-          href: 'https://twitter.com/vuetifyjs',
-        },
-        {
-          text: 'Articles',
-          href: 'https://medium.com/vuetify',
-        },
-      ],
-      whatsNext: [
-        {
-          text: 'Explore components',
-          href: 'https://vuetifyjs.com/components/api-explorer',
-        },
-        {
-          text: 'Select a layout',
-          href: 'https://vuetifyjs.com/getting-started/pre-made-layouts',
-        },
-        {
-          text: 'Frequently Asked Questions',
-          href: 'https://vuetifyjs.com/getting-started/frequently-asked-questions',
-        },
-      ],
-    }),
-  }
+export default {
+  name: "Home",
+
+  data: () => ({
+    loading: false,
+    user: {
+      mail: "",
+      password: "",
+    },
+    error: "",
+    userData: "",
+  }),
+  methods: {
+    ...mapMutations(["setUser"]),
+    async iniciarSesion() {
+      this.loading = true;
+      try {
+        this.userData = await this.getUser();
+        this.setUser(this.userData);
+        if (this.userData.rol == "admin") {
+          console.log("accedió el admin");
+          this.$router.push({ name: "Store" });
+        }
+      } catch (error) {
+        console.warn(error);
+      } finally {
+        this.loading = false;
+      }
+    },
+    async getUser() {
+      try {
+        const response = await auth.signInWithEmailAndPassword(
+          this.user.mail,
+          this.user.password
+        );
+        let user = await this.getDataUser(response.user.uid);
+        return user;
+      } catch (error) {
+        this.error = error.message;
+
+        setTimeout(() => {
+          this.error = "";
+        }, 5000);
+      }
+    },
+    async getDataUser(uid) {
+      try {
+        const response = await db.collection("users").doc(uid).get();
+        return response.data();
+      } catch (error) {
+        console.warn(error);
+      }
+    },
+  },
+};
 </script>
+
+<style lang="css">
+</style>
