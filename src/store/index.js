@@ -19,15 +19,16 @@ export default new Vuex.Store({
     },
     setToShoppingCar(state, payload) {
       if(state.bag[payload.id] === undefined){
-        state.bag[payload.id] = payload;
+        state.bag[payload.id] = { ...payload }; 
+        console.log(state.bag)
         state.bag[payload.id].cantidad = 1;
-        state.bag = Object.assign({}, state.bag);
         this.commit("incrementBagCounter")
         return;
       }
       if (state.bag[payload.id] !== undefined) {
         state.bag[payload.id].cantidad++;
         state.bag = Object.assign({}, state.bag);
+        state.bag[payload.id].status = 'carrito';
         this.commit("incrementBagCounter")
         return;
       }
@@ -44,8 +45,9 @@ export default new Vuex.Store({
       delete state.bag[payload.id];
       state.bag = Object.assign({}, state.bag);
     },
-    resetBagCounter(state){
-      state.bagCounter = 0
+    resetProduct(state){
+      state.bag = {}
+      state.bagCounter = 0;
     },
     incrementBagCounter(state) {
       state.bagCounter = state.bagCounter + 1; 
@@ -65,6 +67,13 @@ export default new Vuex.Store({
     eliminarProducto({ commit }, payload) {
       commit('deleteProduct', payload);
     },
+    comprarProducto({ commit }, payload) {
+      commit('setToShoppingCar', payload);
+    },
+    vaciarProducto({ commit }, payload) {
+      commit('resetProduct', payload);
+    },
+    
   },
   modules: {
   }

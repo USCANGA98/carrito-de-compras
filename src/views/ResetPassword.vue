@@ -6,8 +6,7 @@
       height="55"
     >
       <router-link :to="{ name: 'Home' }">
-        <v-img max-height="85" max-width="124" src="../assets/logo.png">
-        </v-img>
+        <v-img max-height="35" max-width="35" src="../assets/logo.svg"> </v-img>
       </router-link>
 
       <v-spacer></v-spacer>
@@ -91,11 +90,6 @@
         </v-card-text>
 
         <v-divider></v-divider>
-
-        <v-card-text class="black--text">
-          {{ new Date().getFullYear() }} —
-          <strong>Universidad Tecnológica del Sureste de Veracruz</strong>
-        </v-card-text>
       </v-card>
     </v-footer>
   </div>
@@ -104,32 +98,31 @@
 <script>
 import { auth } from "../services/firebase";
 export default {
-  name: "PasswordReset",
-
+  name: "ResetPassword",
   data: () => ({
     icons: [
       {
         icon: "mdi-facebook",
         color: "#3b5998",
-        link: "https://www.facebook.com/UTSV1/",
+
         target: "_blank",
       },
       {
         icon: "mdi-twitter",
         color: "#00acee",
-        link: "https://twitter.com/UTSV1",
+
         target: "_blank",
       },
       {
         icon: "mdi-linkedin",
         color: "#0e76a8",
-        link: "https://www.linkedin.com/school/utsv/mycompany/",
+
         target: "_blank",
       },
       {
         icon: "mdi-instagram",
         color: "#C13584",
-        link: "https://www.instagram.com/utsvnanchital/",
+
         target: "_blank",
       },
     ],

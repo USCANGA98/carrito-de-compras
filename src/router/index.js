@@ -31,14 +31,15 @@ const routes = [
     component: () => import(/* webpackChunkName: "home" */ "../views/ResetPassword.vue")
   },
   {
-    path: '/create-account',
-    name: 'CreateAccount',
-    component: () => import(/* webpackChunkName: "home" */ "../views/CreateAccount.vue")
-  },
-  {
     path: '/product-view',
     name: 'ProductView',
     component: () => import(/* webpackChunkName: "home" */ "../views/ProductView.vue"),
+    beforeEnter: ifAuthenticated
+  },
+  {
+    path: '/cart',
+    name: 'Cart',
+    component: () => import(/* webpackChunkName: "home" */ "../views/Cart.vue"),
     beforeEnter: ifAuthenticated
   },
 ]

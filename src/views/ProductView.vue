@@ -42,11 +42,18 @@
               half-increments
               size="18"
             ></v-rating>
-            <h1 style="font-size: 40px" class="font-weight-light mb-16">
-              $ {{ productSelected.precio }}
+            <h1 style="font-size: 40px" class="font-weight-medium mb-16">
+              {{
+                new Intl.NumberFormat("es-MX", {
+                  style: "currency",
+                  currency: "MXN",
+                }).format(productSelected.precio)
+              }}
             </h1>
+
             <v-col cols="8">
               <v-btn
+                @click="comprar(productSelected)"
                 x-large
                 depressed
                 class="mb-2 text-capitalize white--text"
@@ -73,7 +80,7 @@
 </template>
 
 <script>
-import { mapMutations, mapState } from "vuex";
+import { mapMutations, mapState, mapActions } from "vuex";
 export default {
   name: "ProductView",
   data() {
@@ -83,9 +90,14 @@ export default {
     ...mapState(["productSelected"]),
   },
   methods: {
+    ...mapActions(["comprarProducto"]),
     ...mapMutations(["setToShoppingCar"]),
     carrito(productSelected) {
       this.setToShoppingCar(productSelected);
+    },
+    comprar(productSelected) {
+      this.comprarProducto(productSelected);
+      this.$router.push({ name: "Cart" });
     },
   },
 };

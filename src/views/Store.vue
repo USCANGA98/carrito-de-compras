@@ -1,12 +1,10 @@
 <template>
   <div>
     <Carousel />
-    <h1>Estas en la tienda</h1>
     <div style="width: 85%" class="ma-auto">
-      
-          <Products :data="products" />
+      <Products :data="products" />
 
-          <!-- <v-hover v-slot:default="{ hover }" open-delay="0">
+      <!-- <v-hover v-slot:default="{ hover }" open-delay="0">
             <v-card
               :class="`elevation-${hover ? 4 : 1}`"
               class="pa-2 ma-5"
@@ -20,7 +18,6 @@
               </v-img>
             </v-card>
           </v-hover> -->
-       
     </div>
   </div>
 </template>
@@ -47,12 +44,10 @@ export default {
     async getProducts() {
       this.loading = true;
       try {
-        const response = await db
-          .collection("products").get();
+        const response = await db.collection("products").get();
         if (response.docs.length > 0) {
           response.docs.forEach((e) => {
             this.products.push(e.data());
-            console.log(this.products);
           });
         }
       } catch (error) {

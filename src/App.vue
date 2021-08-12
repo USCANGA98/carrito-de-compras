@@ -1,7 +1,7 @@
 <template>
   <v-app>
-    <AppBar v-if="$route.name != 'Home' && $route.name != 'Reset-Password' && $route.name != 'CreateAccount'" />
-    <v-main class="grey lighten-4">
+    <AppBar v-if="$route.path != '/' && $route.path != '/reset-password'" />
+    <v-main class="white">
       <router-view/>
     </v-main>
   </v-app>
